@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/rtcloud.snapshot.schema.json",
+  "title": "RTCloud Snapshot v1",
+  "type": "object",
+  "required": ["schema", "name", "created_at", "entries", "snapshot_id"],
+  "properties": {
+    "schema": {"const": "rtcloud.snapshot/v1"},
+    "name": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "minLength": 1},
+    "parent_snapshot_id": {"type": ["string", "null"]},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["logical_name", "manifest_id"],
+        "properties": {
+          "logical_name": {"type": "string", "minLength": 1},
+          "manifest_id": {"type": "string", "pattern": "^[a-z0-9]+:[a-f0-9]+$"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "snapshot_id": {"type": "string", "pattern": "^[a-z0-9]+:[a-f0-9]+$"}
+  },
+  "additionalProperties": false
+}

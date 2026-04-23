@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/rtcloud.manifest.schema.json",
+  "title": "RTCloud Manifest v1",
+  "type": "object",
+  "required": ["schema", "logical_name", "content_size", "chunking", "chunks", "manifest_id"],
+  "properties": {
+    "schema": {"const": "rtcloud.manifest/v1"},
+    "logical_name": {"type": "string", "minLength": 1},
+    "content_size": {"type": "integer", "minimum": 0},
+    "chunking": {
+      "type": "object",
+      "required": ["mode", "chunk_size", "hash"],
+      "properties": {
+        "mode": {"type": "string", "enum": ["fixed", "variable"]},
+        "chunk_size": {"type": "integer", "minimum": 1},
+        "hash": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "chunks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["index", "offset", "size", "hash", "store"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 0},
+          "offset": {"type": "integer", "minimum": 0},
+          "size": {"type": "integer", "minimum": 0},
+          "hash": {"type": "string", "pattern": "^[a-z0-9]+:[a-f0-9]+$"},
+          "store": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "manifest_id": {"type": "string", "pattern": "^[a-z0-9]+:[a-f0-9]+$"}
+  },
+  "additionalProperties": false
+}
